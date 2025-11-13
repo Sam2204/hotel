@@ -2,7 +2,7 @@ name: Node.js CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ] # Runs on every commit to the main branch
+    branches: [ "master" ] # Runs on every commit to the main branch
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
