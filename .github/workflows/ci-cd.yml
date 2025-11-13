@@ -1,0 +1,41 @@
+name: Node.js CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ] # Runs on every commit to the main branch
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/hotel-app
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 1. Checkout repository code
+        uses: actions/checkout@v4
+      
+      - name: 2. Setup Node.js & Install Dependencies
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --omit=dev
+
+      # Uses the DOCKER_USERNAME and DOCKER_PASSWORD secrets to log into Docker Hub
+      - name: 3. Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }} 
+
+      - name: 4. Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # Tags the image with the unique commit hash and the 'latest' tag
+          tags: ${{ env.DOCKER_IMAGE }}:${{ github.sha }}, ${{ env.DOCKER_IMAGE }}:latest
+          
+      - name: 5. Image Built and Pushed Successfully
+        run: echo "Image ${{ env.DOCKER_IMAGE }}:${{ github.sha }} built and pushed to Docker Hub."
