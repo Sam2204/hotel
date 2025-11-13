@@ -1,0 +1,10 @@
+# Dependencies and Builds
+/node_modules
+npm-debug.log*
+
+# Data and Secrets (IMPORTANT)
+users.xlsx 
+.env # If you use a .env file for secrets, ignore it!
+
+# Docker ignores
+.dockerignore

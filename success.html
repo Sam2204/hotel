@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Successful</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .success-container {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 400px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .checkmark {
+      font-size: 70px;
+      color: green;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #555;
+      margin: 5px 0;
+    }
+
+    .details-box {
+      background: #f6f6f6;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+      text-align: left;
+    }
+
+    .btn {
+      background: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      margin-top: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background: #0b79d0;
+    }
+  </style>
+</head>
+<body>
+  <div class="success-container">
+    <div class="checkmark">✅</div>
+    <h2>Booking Confirmed!</h2>
+    <p>Thank you for booking with us.</p>
+    <p>Your stay has been successfully reserved.</p>
+
+    <div class="details-box">
+      <p><strong>Booking ID:</strong> <span id="bookingId"></span></p>
+      <p><strong>Hotel:</strong> <span id="hotelName"></span></p>
+      <p><strong>Check-in:</strong> <span id="checkIn"></span></p>
+      <p><strong>Check-out:</strong> <span id="checkOut"></span></p>
+      <p><strong>Amount Paid:</strong> ₹<span id="amount"></span></p>
+    </div>
+
+    <button class="btn" onclick="goHome()">Return to Home</button>
+  </div>
+
+  <script>
+    // Generate a random booking ID
+    const bookingId = 'BK' + Math.floor(Math.random() * 1000000);
+
+    // Try to get data from payment page URL
+    const params = new URLSearchParams(window.location.search);
+    const hotel = params.get("hotel") || "Not Available";
+    const checkIn = params.get("checkIn") || "N/A";
+    const checkOut = params.get("checkOut") || "N/A";
+    const amount = params.get("amount") || "0";
+
+    // Display the info
+    document.getElementById("bookingId").innerText = bookingId;
+    document.getElementById("hotelName").innerText = hotel;
+    document.getElementById("checkIn").innerText = checkIn;
+    document.getElementById("checkOut").innerText = checkOut;
+    document.getElementById("amount").innerText = amount;
+
+    function goHome() {
+      window.location.href = "interface.html";
+    }
+  </script>
+</body>
+</html>

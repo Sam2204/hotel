@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Confirmation</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .confirmation-box {
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 380px;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .info {
+      text-align: left;
+      margin-bottom: 20px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .highlight {
+      color: #2575fc;
+      font-weight: bold;
+    }
+
+    .btn {
+      background-color: #2575fc;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background-color: #1b5ed6;
+    }
+
+    .cancel-btn {
+      background-color: red;
+      margin-top: 10px;
+    }
+
+    .cancel-btn:hover {
+      background-color: darkred;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="confirmation-box">
+    <h2>Confirm Your Booking</h2>
+    <div class="info">
+      <p><strong>Hotel:</strong> <span class="highlight" id="hotelName"></span></p>
+      <p><strong>Check-in:</strong> <span id="checkInDate"></span></p>
+      <p><strong>Check-out:</strong> <span id="checkOutDate"></span></p>
+      <p><strong>Nights:</strong> <span id="nights"></span></p>
+      <p><strong>Total Price:</strong> ₹<span class="highlight" id="totalPrice"></span></p>
+    </div>
+
+    <button class="btn" onclick="goToPayment()">Proceed to Payment</button>
+    <button class="btn cancel-btn" onclick="goBack()">Cancel</button>
+  </div>
+
+  <script>
+    // Retrieve booking data from URL parameters
+    const params = new URLSearchParams(window.location.search);
+    const hotelName = params.get("hotel");
+    const checkIn = params.get("checkIn");
+    const checkOut = params.get("checkOut");
+    const price = params.get("price");
+
+    // Calculate number of nights
+    const inDate = new Date(checkIn);
+    const outDate = new Date(checkOut);
+    const days = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
+    const total = days * price;
+
+    // Update page content
+    document.getElementById("hotelName").textContent = hotelName;
+    document.getElementById("checkInDate").textContent = checkIn;
+    document.getElementById("checkOutDate").textContent = checkOut;
+    document.getElementById("nights").textContent = days;
+    document.getElementById("totalPrice").textContent = total.toLocaleString();
+
+    // Navigate to payment
+    function goToPayment() {
+      window.location.href = `payment.html?hotel=${hotelName}&amount=${total}`;
+    }
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+
+</body>
+</html>
